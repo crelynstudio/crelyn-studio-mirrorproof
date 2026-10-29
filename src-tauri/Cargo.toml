@@ -1,0 +1,36 @@
+[package]
+name = "mirrorproof"
+version = "0.1.0"
+description = "Read-only folder and backup integrity verification"
+authors = ["Crelyn Studio"]
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "mirrorproof_lib"
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "=2.7.4", features = [] }
+
+[dependencies]
+tauri = { version = "=2.12.5", features = [] }
+tauri-plugin-dialog = "=2.8.4"
+tauri-plugin-opener = "=2.7.2"
+tauri-plugin-notification = "=2.8.0"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+sha2 = "=0.10.9"
+
+[dev-dependencies]
+tempfile = "=3.27.0"
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+codegen-units = 1
+
+# Keep SHA-256 compression fast while optimizing the rest of the application for size.
+[profile.release.package.sha2]
+opt-level = 3
